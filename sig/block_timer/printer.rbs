@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+module BlockTimer
+  class Printer
+    @logger: Logger
+    @transformer: Transformer
+    @round_by: Integer
+
+    def call: (name: String, times: Hash[Symbol, Time]) -> void
+
+  end
+end

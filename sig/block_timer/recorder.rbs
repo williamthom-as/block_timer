@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+module BlockTimer
+  class Recorder
+
+    attr_reader name: String
+    attr_reader printer: Printer
+    attr_reader times: Hash[Symbol, Time]
+
+    def self.time: (
+        ?name: String,
+        ?printer: Printer,
+      ) { (recorder: Recorder) -> void } -> Hash[Symbol, Object]
+
+    def start: -> void
+
+    def lap: (?identifier: [Symbol, nil]) -> void
+
+    def stop: -> void
+
+    def print: -> void
+  end
+end

@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+module BlockTimer
+  class Transformer
+    def call: (?times: Hash[Symbol, Time]) -> void
+  end
+end
