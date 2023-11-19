@@ -1,24 +1,42 @@
-# BlockTimer
+# Block Timer
 
-TODO: Delete this and the text below, and describe your gem
+Simple utility to time code in Ruby. It functions like a stop watch, allowing for 'start, lap, stop'. 
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/block_timer`. To experiment with that code, run `bin/console` for an interactive prompt.
+It can be easily customised to change all of its behaviour, should you want to persist a sample to your DB, 
+or just log to stdout.
+
+Example:
+
+```ruby
+BlockTimer.time do |stop_watch|
+  orders.each_with_index do |order, idx|
+    notify_owner(order)
+    stop_watch.lap("order_#{idx}".to_sym)
+  end
+end
+
+# Prints:
+# I,: [Order tracking] total time taken: 4.0
+# I,: 	[start_time]: 13:42:12 (0.0 seconds between, 0.0 since start)
+# I,: 	[order_1]:    13:42:13 (1.0 seconds between, 1.0 since start)
+# I,: 	[order_2]:    13:42:14 (1.0 seconds between, 2.0 since start)
+# I,: 	[order_3]:    13:42:15 (1.0 seconds between, 3.0 since start)
+# I,: 	[end_time]:   13:42:16 (1.0 seconds between, 4.0 since start)
+```
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add block_timer
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install block_timer
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Extending default Printer, Transformer
 
 ## Development
 

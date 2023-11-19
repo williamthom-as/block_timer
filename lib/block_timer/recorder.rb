@@ -4,44 +4,15 @@ module BlockTimer
 
   class Recorder
 
-    # @param [String] name
-    # @param [Printer] printer
-    # @param [Proc] block
-    # @return [Hash<Symbol, Time>]
-    def self.time(
-      name: "Timer",
-      printer: Printer.new,
-      &block
-    )
-      raise "Block must be provided!" unless block
+    attr_reader :times
 
-      recorder = Recorder.new(name: name, printer: printer)
-      recorder.start
-
-      yield recorder
-
-      recorder.stop
-      recorder.print
-
-      recorder.times
-    end
-
-    attr_reader :name, :printer, :times
-
-    # @param [String] name
-    # @param [Printer] printer
-    def initialize(
-      name: "Timer",
-      printer: Printer.new
-    )
-      @name = name
-      @printer = printer
+    def initialize
       @times = {}
     end
 
     # @return void
     def start
-      return if @times.key? :start_time
+      raise InvalidOperationError, "Stopwatch has already started" if @times.key? :start_time
 
       @times[:start_time] = Time.now
     end
@@ -49,23 +20,26 @@ module BlockTimer
     # @param [Symbol, nil] identifier
     # @return void
     def lap(identifier: nil)
-      identifier ||= "section_#{@times.keys.count - 1}".to_sym
+      validate_running
 
+      identifier ||= "section_#{@times.keys.count - 1}".to_sym
       @times[identifier] = Time.now
     end
 
     # @return void
     def stop
-      return if @times.key? :end_time
+      validate_running
 
       @times[:end_time] = Time.now
     end
 
-    # @return void
-    def print
-      @printer.call(name: @name, times: @times)
+    private
+
+    # @raises [InvalidOperationError]
+    # @return [void]
+    def validate_running
+      raise InvalidOperationError, "Stopwatch has not been started" unless @times.key?(:start_time)
+      raise InvalidOperationError, "Stopwatch has ended already" if @times.key?(:end_time)
     end
-
   end
-
 end

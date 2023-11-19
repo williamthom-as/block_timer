@@ -2,11 +2,28 @@
 
 module BlockTimer
   class Printer
+
+    type printer_opts = {
+        date_formatter: ^(Date) -> String,
+        decimal_formatter: ^(Float) -> String,
+      }
+
     @logger: Logger
     @transformer: Transformer
-    @round_by: Integer
+    @opts: printer_opts
+    @decimal_formatter: Proc
+    @date_formatter: Proc
 
-    def call: (name: String, times: Hash[Symbol, Time]) -> void
+    def initialize: (
+      ?logger: Logger,
+      ?transformer: Transformer,
+      ?opts: printer_opts
+      ) -> self
+
+    def call: (
+        ?name: String,
+        ?times: Hash[Symbol, Time]
+      ) -> void
 
   end
 end

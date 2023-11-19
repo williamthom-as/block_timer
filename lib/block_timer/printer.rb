@@ -5,29 +5,33 @@ module BlockTimer
 
     # @param [Logger] logger
     # @param [BlockTimer::Transformer] transformer
-    # @param [Integer] round_by
+    # @param [Hash] opts
+    # @option [(Date)->String] :date_formatter - formatter for date
+    # @option [(Float)->String] :decimal_formatter - formatter for numbers
     def initialize(
       logger: Logger.new($stdout),
       transformer: Transformer.new,
-      round_by: 4
+      opts: {}
     )
       @logger = logger
       @transformer = transformer
-      @round_by = round_by
+      @date_formatter = opts.fetch(:date_formatter, ->(f) { f.strftime("%H:%M:%S") })
+      @decimal_formatter = opts.fetch(:decimal_formatter, ->(d) { d.round(4) })
     end
 
     def call(name:, times:)
       trans = @transformer.call(times: times)
 
       @logger.info {
-        "[#{name}] total time taken: #{(trans[:end_time][:time] - trans[:start_time][:time]).round(@round_by)}"
+        "[#{name}] total time taken: " \
+          "#{@decimal_formatter.call((trans[:end_time][:time] - trans[:start_time][:time]))}"
       }
 
       trans.each do |k, result|
         @logger.info {
-          "\t[#{k}]: #{result[:time].strftime("%H:%M:%S")} " \
-            "(#{result[:time_between].round(@round_by)} seconds between, " \
-            "#{result[:time_since_start].round(@round_by)} since start)"
+          "\t[#{k}]: #{@date_formatter.call(result[:time])} " \
+            "(#{@decimal_formatter.call(result[:time_between])} seconds between, " \
+            "#{@decimal_formatter.call(result[:time_since_start])} since start)"
         }
       end
     end

@@ -1,4 +1,9 @@
 module BlockTimer
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  def self.time: (
+      ?name: String,
+      ?printer: Printer,
+      ?recorder: Recorder,
+    ) { (recorder: Recorder) -> void } -> Hash[Symbol, Time]
 end
