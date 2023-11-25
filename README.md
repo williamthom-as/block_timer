@@ -8,20 +8,20 @@ or just log to stdout.
 Example:
 
 ```ruby
-BlockTimer.time do |stop_watch|
+BlockTimer.time(name: "Order Tracking") do |stop_watch|
   orders.each_with_index do |order, idx|
     notify_owner(order)
-    stop_watch.lap("order_#{idx}".to_sym)
+    stop_watch.lap("notify_order_#{idx}".to_sym)
   end
 end
 
 # Prints:
 # I,: [Order tracking] total time taken: 4.0
-# I,: 	[start_time]: 13:42:12 (0.0 seconds between, 0.0 since start)
-# I,: 	[order_1]:    13:42:13 (1.0 seconds between, 1.0 since start)
-# I,: 	[order_2]:    13:42:14 (1.0 seconds between, 2.0 since start)
-# I,: 	[order_3]:    13:42:15 (1.0 seconds between, 3.0 since start)
-# I,: 	[end_time]:   13:42:16 (1.0 seconds between, 4.0 since start)
+# I,: 	[start_time]:     13:42:12 (0.0 seconds between, 0.0 since start)
+# I,: 	[notify_order_1]: 13:42:13 (1.0 seconds between, 1.0 since start)
+# I,: 	[notify_order_2]: 13:42:14 (1.0 seconds between, 2.0 since start)
+# I,: 	[notify_order_3]: 13:42:15 (1.0 seconds between, 3.0 since start)
+# I,: 	[end_time]:       13:42:16 (1.0 seconds between, 4.0 since start)
 ```
 
 ## Installation
