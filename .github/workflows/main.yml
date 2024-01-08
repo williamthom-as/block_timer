@@ -23,7 +23,11 @@ jobs:
 
       - name: Run bundle install
         run: |
-          gem install bundler
+          if [[ "${{ matrix.ruby }}" == "2.7.5" ]]; then
+            gem install bundler -v 2.4.22
+          else
+            gem install bundler
+          fi
           bundle install --jobs 4 --retry 3
 
       - name: Build and test with rspec
