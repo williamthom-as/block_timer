@@ -2,13 +2,14 @@
 
 Simple utility to time code in Ruby. It functions like a stop watch, allowing for 'start, lap, stop'. 
 
-It can be easily customised to change all of its behaviour, should you want to persist a sample to your DB, 
+It can be easily customised to change all of its behaviour, should you want to persist a sample to your DB or remote service 
 or just log to stdout.
 
 Example:
 
 ```ruby
 BlockTimer.time(name: "Order Tracking") do |stop_watch|
+  # Below is an example block to time
   orders.each_with_index do |order, idx|
     notify_owner(order)
     stop_watch.lap("notify_order_#{idx}".to_sym)
@@ -36,7 +37,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Extending default Printer, Transformer
+**TODO**: Document custom implementations of `Printer` and `Transformer`
 
 ## Development
 
